@@ -1,389 +1,246 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>easyfashionworld</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>easyfashionworld</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #fff;
+  overflow-x: hidden;
+  background: black;
+}
 
-    body {
-      background: linear-gradient(135deg, #f6d5ff, #d8f1ff);
-      min-height: 100vh;
-      color: #222;
-      padding: 20px;
-    }
+/* Glitzer Hintergrund */
+.stars, .stars2, .stars3 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background: transparent;
+  display: block;
+}
 
-    .app {
-      max-width: 1100px;
-      margin: auto;
-    }
+.stars {
+  background-image: radial-gradient(2px 2px at 20px 30px, white, transparent),
+                    radial-gradient(2px 2px at 40px 70px, white, transparent),
+                    radial-gradient(1px 1px at 90px 40px, white, transparent);
+  animation: moveStars 50s linear infinite;
+  opacity: 0.5;
+}
 
-    .hero {
-      background: white;
-      border-radius: 24px;
-      padding: 40px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      margin-bottom: 30px;
-    }
+.stars2 {
+  background-image: radial-gradient(1px 1px at 50px 80px, #ff66ff, transparent),
+                    radial-gradient(1px 1px at 120px 20px, #66ffff, transparent);
+  animation: moveStars 100s linear infinite;
+  opacity: 0.4;
+}
 
-    .hero h1 {
-      font-size: 3rem;
-      color: #7b2cbf;
-      margin-bottom: 15px;
-    }
+.stars3 {
+  background-image: radial-gradient(1px 1px at 10px 10px, #ffff66, transparent),
+                    radial-gradient(2px 2px at 150px 90px, #ff9966, transparent);
+  animation: moveStars 150s linear infinite;
+  opacity: 0.3;
+}
 
-    .hero p {
-      font-size: 1.1rem;
-      color: #555;
-      max-width: 700px;
-      line-height: 1.6;
-    }
+@keyframes moveStars {
+  from {transform: translateY(0px);}
+  to {transform: translateY(-1000px);}
+}
 
-    .main-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 25px;
-    }
+.container {
+  position: relative;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
 
-    .card {
-      background: white;
-      border-radius: 24px;
-      padding: 30px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    }
+h1 {
+  text-align: center;
+  font-size: 32px;
+}
 
-    h2 {
-      margin-bottom: 20px;
-      color: #7b2cbf;
-    }
+input, select, button {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 8px;
+  border: none;
+}
 
-    .input-group {
-      margin-bottom: 18px;
-    }
+button {
+  cursor: pointer;
+  background: #ff4dd2;
+  color: white;
+}
 
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-    }
+.card {
+  background: rgba(0,0,0,0.6);
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 12px;
+}
 
-    select {
-      width: 100%;
-      padding: 14px;
-      border-radius: 12px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-      transition: 0.3s;
-    }
+.outfit {
+  margin-bottom: 10px;
+  padding: 10px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+}
 
-    select:focus {
-      outline: none;
-      border-color: #7b2cbf;
-    }
-
-    button {
-      width: 100%;
-      padding: 16px;
-      border: none;
-      border-radius: 14px;
-      background: #7b2cbf;
-      color: white;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: 0.3s;
-      font-weight: bold;
-    }
-
-    button:hover {
-      background: #5a189a;
-      transform: translateY(-2px);
-    }
-
-    .result {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .outfit-box {
-      background: #f9f9f9;
-      border-radius: 16px;
-      padding: 18px;
-      border-left: 6px solid #7b2cbf;
-    }
-
-    .outfit-box h3 {
-      margin-bottom: 8px;
-      color: #7b2cbf;
-    }
-
-    .style-preview {
-      margin-top: 25px;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
-
-    .preview-card {
-      background: linear-gradient(135deg, #ffffff, #f4e7ff);
-      padding: 20px;
-      border-radius: 18px;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-
-    .preview-card span {
-      font-size: 2rem;
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      color: #555;
-      font-size: 0.9rem;
-    }
-
-    @media(max-width: 850px) {
-      .main-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero h1 {
-        font-size: 2.2rem;
-      }
-    }
-  </style>
+.small {
+  font-size: 13px;
+  opacity: 0.8;
+}
+</style>
 </head>
+
 <body>
 
-  <div class="app">
+<div class="stars"></div>
+<div class="stars2"></div>
+<div class="stars3"></div>
 
-    <section class="hero">
-      <h1>easyfashionworld</h1>
-      <p>
-        Deine smarte Fashion-WebApp für schnelle Outfit-Ideen.
-        Wähle Wetter, Anlass, Style und Altersgruppe — und finde sofort dein passendes Outfit.
-      </p>
-    </section>
+<div class="container">
+  <h1>✨ easyfashionworld</h1>
+  <p style="text-align:center;">Deine KI Modeberaterin für perfekte Outfits</p>
 
-    <div class="main-grid">
+  <div class="card">
+    <input id="weather" placeholder="Wetter (z.B. sonnig, kalt, regen)" />
+    <input id="event" placeholder="Anlass (z.B. Schule, Party, Business)" />
 
-      <section class="card">
-        <h2>Outfit konfigurieren</h2>
+    <select id="gender">
+      <option value="unisex">Unisex</option>
+      <option value="male">Männlich</option>
+      <option value="female">Weiblich</option>
+    </select>
 
-        <div class="input-group">
-          <label>Wetter</label>
-          <select id="weather">
-            <option value="heiss">Heiss</option>
-            <option value="warm">Warm</option>
-            <option value="kalt">Kalt</option>
-            <option value="regnerisch">Regnerisch</option>
-          </select>
-        </div>
+    <input id="age" type="number" placeholder="Alter" />
 
-        <div class="input-group">
-          <label>Style</label>
-          <select id="style">
-            <option value="casual">Casual</option>
-            <option value="streetwear">Streetwear</option>
-            <option value="elegant">Elegant</option>
-            <option value="sportlich">Sportlich</option>
-            <option value="business">Business</option>
-          </select>
-        </div>
-
-        <div class="input-group">
-          <label>Altersgruppe</label>
-          <select id="age">
-            <option value="teen">Teenager</option>
-            <option value="adult">Erwachsene (20–40)</option>
-          </select>
-        </div>
-
-        <div class="input-group">
-          <label>Anlass</label>
-          <select id="event">
-            <option value="schule">Schule</option>
-            <option value="party">Party</option>
-            <option value="arbeit">Arbeit</option>
-            <option value="freizeit">Freizeit</option>
-            <option value="sport">Sport</option>
-          </select>
-        </div>
-
-        <button onclick="generateOutfit()">Outfit generieren</button>
-
-        <div class="style-preview">
-          <div class="preview-card">
-            <span>👟</span>
-            <p>Streetwear</p>
-          </div>
-
-          <div class="preview-card">
-            <span>🧥</span>
-            <p>Casual</p>
-          </div>
-
-          <div class="preview-card">
-            <span>👔</span>
-            <p>Business</p>
-          </div>
-
-          <div class="preview-card">
-            <span>✨</span>
-            <p>Elegant</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="card">
-        <h2>Dein Outfit</h2>
-
-        <div class="result" id="result">
-          <div class="outfit-box">
-            <h3>Willkommen</h3>
-            <p>Wähle deine Einstellungen aus und generiere dein Outfit.</p>
-          </div>
-        </div>
-      </section>
-
-    </div>
-
-    <footer>
-      easyfashionworld © 2026 — Moderne Fashionhilfe für Alltag und Events.
-    </footer>
-
+    <button onclick="generateOutfits()">Outfits generieren</button>
+    <button onclick="newSuggestions()">Neue Vorschläge</button>
   </div>
 
-  <script>
+  <div id="results"></div>
+  <div class="card">
+    <h3>⭐ Favoriten</h3>
+    <div id="favorites"></div>
+  </div>
+</div>
 
-    function generateOutfit() {
+<script>
+let lastOutfits = [];
 
-      const weather = document.getElementById('weather').value;
-      const style = document.getElementById('style').value;
-      const age = document.getElementById('age').value;
-      const event = document.getElementById('event').value;
+function generateOutfits() {
+  const weather = document.getElementById("weather").value.toLowerCase();
+  const event = document.getElementById("event").value.toLowerCase();
+  const gender = document.getElementById("gender").value;
+  const age = parseInt(document.getElementById("age").value);
 
-      let outfit = {
-        top: '',
-        bottom: '',
-        shoes: '',
-        accessories: ''
-      };<p><strong>Farbkombination:</strong> ${colorCombo}</p>
+  lastOutfits = createOutfits(weather, event, gender, age);
+  renderOutfits(lastOutfits);
+}
 
-      // Wetterlogik
-      if(weather === 'heiss') {
-        outfit.top = 'Leichtes T-Shirt';
-        outfit.bottom = 'Kurze Shorts';
-        outfit.shoes = 'Luftige Sneaker';
-        outfit.accessories = 'Sonnenbrille';
-      }
+function newSuggestions() {
+  if (lastOutfits.length > 0) {
+    const weather = document.getElementById("weather").value.toLowerCase();
+    const event = document.getElementById("event").value.toLowerCase();
+    const gender = document.getElementById("gender").value;
+    const age = parseInt(document.getElementById("age").value);
 
-      if(weather === 'warm') {
-        outfit.top = 'Hoodie oder Shirt';
-        outfit.bottom = 'Jeans';
-        outfit.shoes = 'Sneaker';
-        outfit.accessories = 'Leichte Jacke';
-      }
+    lastOutfits = createOutfits(weather, event, gender, age, true);
+    renderOutfits(lastOutfits);
+  }
+}
 
-      if(weather === 'kalt') {
-        outfit.top = 'Pullover + Winterjacke';
-        outfit.bottom = 'Dunkle Jeans';
-        outfit.shoes = 'Boots';
-        outfit.accessories = 'Schal';
-      }
+function createOutfits(weather, event, gender, age, random=false) {
+  const styles = ["Streetwear", "Casual", "Elegant", "Sportlich", "Minimalistisch"];
+  const colors = ["Schwarz + Weiß", "Beige + Braun", "Blau + Grau", "Pastellfarben", "Neon Akzente"];
 
-      if(weather === 'regnerisch') {
-        outfit.top = 'Regenjacke';
-        outfit.bottom = 'Wasserfeste Hose';
-        outfit.shoes = 'Wetterfeste Schuhe';
-        outfit.accessories = 'Regenschirm';
-      }
+  let outfits = [];
 
-      // Stylelogik
-      if(style === 'streetwear') {
-        outfit.top += ' im Oversize-Look';
-        outfit.accessories += ' + Cap';
-      }
+  for (let i = 0; i < 3; i++) {
+    let style = styles[Math.floor(Math.random()*styles.length)];
+    let color = colors[Math.floor(Math.random()*colors.length)];
 
-      if(style === 'elegant') {
-        outfit.top = 'Elegantes Hemd oder Bluse';
-        outfit.bottom = 'Elegante Stoffhose';
-        outfit.shoes = 'Elegante Schuhe';
-        outfit.accessories += ' + Uhr';
-      }
+    if (age < 18) style = "Jugendlich " + style;
+    if (age > 30) style = "Erwachsen " + style;
 
-      if(style === 'sportlich') {
-        outfit.shoes = 'Sportschuhe';
-        outfit.accessories += ' + Sporttasche';
-      }
-
-      if(style === 'business') {
-        outfit.top = 'Blazer oder Hemd';
-        outfit.bottom = 'Business-Hose';
-        outfit.shoes = 'Lederschuhe';
-        outfit.accessories += ' + Laptop-Tasche';
-      }
-
-      // Alterslogik
-      if(age === 'teen') {
-        outfit.accessories += ' + Trendige Accessoires';
-      }
-
-      if(age === 'adult') {
-        outfit.accessories += ' + Minimalistische Details';
-      }
-
-      // Anlasslogik
-      if(event === 'party') {
-        outfit.top += ' mit auffälligem Design';
-      }
-
-      if(event === 'sport') {
-        outfit.top = 'Sportshirt';
-        outfit.bottom = 'Trainingshose';
-        outfit.shoes = 'Performance-Sportschuhe';
-      }
-
-      if(event === 'arbeit' && style !== 'business') {
-        outfit.accessories += ' + Schlichte Uhr';
-      }
-
-      const result = document.getElementById('result');
-
-      result.innerHTML = `
-        <div class="outfit-box">
-          <h3>👕 Oberteil</h3>
-          <p>${outfit.top}</p>
-        </div>
-
-        <div class="outfit-box">
-          <h3>👖 Unterteil</h3>
-          <p>${outfit.bottom}</p>
-        </div>
-
-        <div class="outfit-box">
-          <h3>👟 Schuhe</h3>
-          <p>${outfit.shoes}</p>
-        </div>
-
-        <div class="outfit-box">
-          <h3>👜 Accessoires</h3>
-          <p>${outfit.accessories}</p>
-        </div>
-      `;
+    if (weather.includes("regen")) {
+      style += " + wasserfest";
+    }
+    if (weather.includes("kalt")) {
+      style += " + warm layering";
+    }
+    if (event.includes("party")) {
+      style += " + auffällig";
     }
 
-  </script>
+    let outfit = {
+      title: style + " Look",
+      items: [
+        "Oberteil: " + (gender === "female" ? "Bluse / Top" : gender === "male" ? "Shirt / Hemd" : "Basic Shirt"),
+        "Unterteil: Jeans oder Stoffhose",
+        "Schuhe: Sneakers oder Boots",
+        "Accessoire: passende Uhr / Tasche"
+      ],
+      colors: color,
+      tips: "Ideal für " + event + " bei " + weather + "."
+    };
+
+    outfits.push(outfit);
+  }
+
+  return outfits;
+}
+
+function renderOutfits(outfits) {
+  const div = document.getElementById("results");
+  div.innerHTML = "";
+
+  outfits.forEach((o, index) => {
+    const el = document.createElement("div");
+    el.className = "card";
+
+    el.innerHTML = `
+      <h3>${o.title}</h3>
+      <p><b>Farben:</b> ${o.colors}</p>
+      <ul>
+        ${o.items.map(i => `<li>${i}</li>`).join("")}
+      </ul>
+      <p class="small">${o.tips}</p>
+      <button onclick='saveFavorite(${JSON.stringify(o).replace(/"/g, "&quot;")})'>⭐ Speichern</button>
+    `;
+
+    div.appendChild(el);
+  });
+}
+
+function saveFavorite(outfit) {
+  let fav = JSON.parse(localStorage.getItem("fav") || "[]");
+  fav.push(outfit);
+  localStorage.setItem("fav", JSON.stringify(fav));
+  loadFavorites();
+}
+
+function loadFavorites() {
+  let fav = JSON.parse(localStorage.getItem("fav") || "[]");
+  const div = document.getElementById("favorites");
+  div.innerHTML = "";
+
+  fav.forEach(f => {
+    const el = document.createElement("div");
+    el.className = "outfit";
+    el.innerHTML = `<b>${f.title}</b><br><small>${f.colors}</small>`;
+    div.appendChild(el);
+  });
+}
+
+loadFavorites();
+</script>
 
 </body>
 </html>
