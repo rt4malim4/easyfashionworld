@@ -6,206 +6,115 @@
 <title>easyfashionworld</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Segoe UI',sans-serif;
-}
-
 body{
+margin:0;
+font-family:Segoe UI;
 background:#0b0b0b;
 color:white;
-min-height:100vh;
-overflow-x:hidden;
 }
 
 #sparkles{
 position:fixed;
-top:0;
-left:0;
 width:100%;
 height:100%;
 z-index:-1;
-overflow:hidden;
 }
 
 .sparkle{
 position:absolute;
 background:gold;
 border-radius:50%;
-box-shadow:0 0 10px gold;
-animation:float linear infinite;
-opacity:.7;
+animation:fall linear infinite;
+opacity:0.7;
 }
 
-@keyframes float{
-0%{
-transform:translateY(100vh);
-opacity:0;
-}
-20%{
-opacity:1;
-}
-100%{
-transform:translateY(-120px);
-opacity:0;
-}
+@keyframes fall{
+0%{transform:translateY(100vh);opacity:0;}
+100%{transform:translateY(-100px);opacity:1;}
 }
 
 .container{
-max-width:1400px;
+max-width:1200px;
 margin:auto;
-padding:30px;
+padding:20px;
 }
 
-.header{
-text-align:center;
-margin-bottom:30px;
-}
-
-.header h1{
-font-size:3rem;
+h1{
 color:gold;
-margin-bottom:10px;
-}
-
-.header p{
-color:#ccc;
+text-align:center;
 }
 
 .grid{
 display:grid;
 grid-template-columns:350px 1fr;
-gap:25px;
-}
-
-.card{
-background:rgba(255,255,255,.05);
-backdrop-filter:blur(10px);
-border:1px solid rgba(255,215,0,.15);
-border-radius:20px;
-padding:25px;
-}
-
-.card h2{
-color:gold;
-margin-bottom:15px;
-}
-
-label{
-display:block;
-margin-top:12px;
-margin-bottom:6px;
-font-weight:600;
-}
-
-select{
-width:100%;
-padding:12px;
-border-radius:10px;
-border:none;
-background:#1c1c1c;
-color:white;
-}
-
-button{
-width:100%;
-padding:14px;
-margin-top:15px;
-border:none;
-border-radius:10px;
-font-weight:bold;
-cursor:pointer;
-transition:.3s;
-}
-
-.primary{
-background:gold;
-color:black;
-}
-
-.primary:hover{
-transform:translateY(-2px);
-}
-
-.secondary{
-background:#333;
-color:white;
-}
-
-.outfits{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
 gap:20px;
 }
 
-.outfit{
-background:rgba(255,255,255,.04);
-padding:20px;
-border-radius:18px;
-border:1px solid rgba(255,215,0,.12);
+.card{
+background:#151515;
+padding:15px;
+border-radius:15px;
+border:1px solid #333;
 }
 
-.outfit h3{
-color:gold;
-margin-bottom:10px;
-}
-
-.outfit ul{
-padding-left:20px;
-}
-
-.outfit li{
-margin-bottom:6px;
-}
-
-.favoriteBtn{
-margin-top:12px;
-background:gold;
-color:black;
-}
-
-.favoriteItem{
-background:#1d1d1d;
+select,input,button{
+width:100%;
 padding:10px;
+margin-top:10px;
+border-radius:8px;
+border:none;
+}
+
+button{
+background:gold;
+font-weight:bold;
+cursor:pointer;
+}
+
+.outfit{
+background:#1b1b1b;
+padding:15px;
+margin-bottom:15px;
 border-radius:10px;
-margin-bottom:10px;
-font-size:.9rem;
 }
 
-.empty{
-text-align:center;
-padding:20px;
-color:#ccc;
+.item{
+margin:8px 0;
+padding:8px;
+background:#222;
+border-radius:8px;
 }
 
-@media(max-width:900px){
-.grid{
-grid-template-columns:1fr;
+img{
+width:100%;
+border-radius:10px;
+margin-top:5px;
 }
-.header h1{
-font-size:2.2rem;
+
+a{
+color:gold;
+text-decoration:none;
+font-size:12px;
 }
+
+.small{
+font-size:12px;
+color:#aaa;
 }
 </style>
 </head>
+
 <body>
 
 <div id="sparkles"></div>
 
-<div class="container">
-
-<div class="header">
 <h1>easyfashionworld</h1>
-<p>Find your perfect outfit based on weather, event, age and style.</p>
-</div>
+
+<div class="container">
 
 <div class="grid">
 
 <div class="card">
-
-<h2>Fashion Planner</h2>
 
 <label>Gender</label>
 <select id="gender">
@@ -214,12 +123,8 @@ font-size:2.2rem;
 <option>Unisex</option>
 </select>
 
-<label>Age Group</label>
-<select id="age">
-<option>Teen (13-19)</option>
-<option>Young Adult (20-30)</option>
-<option>Adult (31-40)</option>
-</select>
+<label>Age</label>
+<input id="age" type="number" value="18">
 
 <label>Weather</label>
 <select id="weather">
@@ -235,43 +140,27 @@ font-size:2.2rem;
 <option>Work</option>
 <option>Party</option>
 <option>Date</option>
-<option>Shopping</option>
 <option>Sport</option>
 </select>
 
 <label>Style</label>
 <select id="style">
-<option>Casual</option>
-<option>Sporty</option>
+<option>Old Money</option>
+<option>Casual / Minimalistic</option>
+<option>Clean</option>
 <option>Streetwear</option>
 <option>Y2K</option>
+<option>Downtown</option>
+<option>Preppy</option>
 </select>
 
-<button class="primary" onclick="generateOutfits()">
-Generate Outfits
-</button>
-
-<button class="secondary" onclick="generateOutfits()">
-More Suggestions
-</button>
-
-<div style="margin-top:25px;">
-<h2>Favorites ❤️</h2>
-<div id="favoritesList"></div>
-</div>
+<button onclick="generate()">Generate Outfits</button>
 
 </div>
 
 <div class="card">
-
-<h2>Outfit Suggestions</h2>
-
-<div id="results" class="outfits">
-<div class="empty">
-Choose your preferences and click "Generate Outfits".
-</div>
-</div>
-
+<h2>Outfits</h2>
+<div id="outfits"></div>
 </div>
 
 </div>
@@ -279,352 +168,111 @@ Choose your preferences and click "Generate Outfits".
 
 <script>
 
-const outfitDatabase = [
+/* GLITTER */
+for(let i=0;i<80;i++){
+let s=document.createElement("div");
+s.className="sparkle";
+s.style.width=Math.random()*4+"px";
+s.style.height=s.style.width;
+s.style.left=Math.random()*100+"%";
+s.style.animationDuration=(Math.random()*8+5)+"s";
+document.getElementById("sparkles").appendChild(s);
+}
 
-{
-style:"Casual",
-gender:"Male",
-age:"Teen (13-19)",
-weather:"Hot",
-event:"School",
-top:"Oversized Graphic Tee",
-bottom:"Cargo Shorts",
-shoes:"White Sneakers",
-accessory:"Crossbody Bag",
-colors:"Black + White"
-},
-{
-style:"Casual",
-gender:"Male",
-age:"Young Adult (20-30)",
-weather:"Warm",
-event:"Shopping",
-top:"Polo Shirt",
-bottom:"Slim Jeans",
-shoes:"Leather Sneakers",
-accessory:"Silver Watch",
-colors:"Beige + Navy"
-},
-{
-style:"Casual",
-gender:"Female",
-age:"Teen (13-19)",
-weather:"Hot",
-event:"School",
-top:"Baby Tee",
-bottom:"Denim Shorts",
-shoes:"Platform Sneakers",
-accessory:"Mini Backpack",
-colors:"Pink + White"
-},
-{
-style:"Casual",
-gender:"Female",
-age:"Young Adult (20-30)",
-weather:"Warm",
-event:"Date",
-top:"Knit Top",
-bottom:"Wide Leg Pants",
-shoes:"Fashion Sneakers",
-accessory:"Shoulder Bag",
-colors:"Cream + Beige"
-},
+/* DATABASE */
+const db=[
 {
 style:"Streetwear",
-gender:"Male",
-age:"Teen (13-19)",
-weather:"Warm",
-event:"School",
-top:"Oversized Hoodie",
-bottom:"Cargo Pants",
-shoes:"Chunky Sneakers",
-accessory:"Chain Necklace",
-colors:"Black + Red"
-},
-{
-style:"Streetwear",
-gender:"Female",
-age:"Teen (13-19)",
-weather:"Warm",
-event:"Shopping",
 top:"Oversized Tee",
-bottom:"Baggy Jeans",
-shoes:"Chunky Sneakers",
-accessory:"Beanie",
-colors:"Grey + Black"
+bottom:"Cargo Pants",
+shoes:"Nike Sneakers",
+accessory:"Crossbody Bag",
+imgTop:"https://images.unsplash.com/photo-1520975922284-9c5c2f8b6f56",
+imgBottom:"https://images.unsplash.com/photo-1602810318383-3e7a3a4f4b89",
+imgShoes:"https://images.unsplash.com/photo-1600185365483-26d7a4cc5c6b",
+link:"https://www.zalando.ch/sneaker/"
 },
 {
-style:"Streetwear",
-gender:"Unisex",
-age:"Young Adult (20-30)",
-weather:"Cold",
-event:"Shopping",
-top:"Puffer Jacket",
-bottom:"Wide Leg Pants",
-shoes:"High Top Sneakers",
-accessory:"Crossbody Bag",
-colors:"Olive + Black"
+style:"Old Money",
+top:"Oxford Shirt",
+bottom:"Tailored Pants",
+shoes:"Loafers",
+accessory:"Watch",
+imgTop:"https://images.unsplash.com/photo-1521335629791-ce4aec67dd47",
+imgBottom:"https://images.unsplash.com/photo-1593032465175-481ac7f401a0",
+imgShoes:"https://images.unsplash.com/photo-1542291026-7eec264c27ff",
+link:"https://www.zalando.ch/hemden/"
 },
 {
 style:"Y2K",
-gender:"Female",
-age:"Teen (13-19)",
-weather:"Warm",
-event:"Party",
 top:"Baby Tee",
 bottom:"Low Rise Jeans",
 shoes:"Platform Sneakers",
 accessory:"Butterfly Necklace",
-colors:"Pink + Silver"
-},
-{
-style:"Y2K",
-gender:"Female",
-age:"Young Adult (20-30)",
-weather:"Hot",
-event:"Date",
-top:"Mesh Top",
-bottom:"Cargo Skirt",
-shoes:"Platform Boots",
-accessory:"Mini Bag",
-colors:"Purple + White"
-},
-{
-style:"Y2K",
-gender:"Unisex",
-age:"Teen (13-19)",
-weather:"Warm",
-event:"Party",
-top:"Cropped Hoodie",
-bottom:"Parachute Pants",
-shoes:"Chunky Trainers",
-accessory:"Tinted Sunglasses",
-colors:"Sky Blue + White"
-},
-{
-style:"Sporty",
-gender:"Male",
-age:"Young Adult (20-30)",
-weather:"Warm",
-event:"Sport",
-top:"Performance Tee",
-bottom:"Training Shorts",
-shoes:"Running Shoes",
-accessory:"Sports Cap",
-colors:"Black + Neon Green"
-},
-{
-style:"Sporty",
-gender:"Female",
-age:"Young Adult (20-30)",
-weather:"Warm",
-event:"Sport",
-top:"Training Crop Top",
-bottom:"Leggings",
-shoes:"Running Shoes",
-accessory:"Smart Watch",
-colors:"Grey + Pink"
-},
-{
-style:"Sporty",
-gender:"Unisex",
-age:"Adult (31-40)",
-weather:"Warm",
-event:"Sport",
-top:"Athletic Tee",
-bottom:"Track Pants",
-shoes:"Performance Trainers",
-accessory:"Gym Bag",
-colors:"Blue + White"
+imgTop:"https://images.unsplash.com/photo-1520975682031-a3c9a6a8f5f3",
+imgBottom:"https://images.unsplash.com/photo-1542272604-787c3835535d",
+imgShoes:"https://images.unsplash.com/photo-1600180758890-6b6c8a6f1b73",
+link:"https://www.asos.com/women/"
 }
 ];
 
-function createVariations(base){
+/* AGE GROUP */
+function ageGroup(age){
+if(age<=19)return"Teen";
+if(age<=30)return"Young Adult";
+return"Adult";
+}
 
-const variations = [];
+/* GENERATE */
+function generate(){
+
+let gender=document.getElementById("gender").value;
+let age=ageGroup(parseInt(document.getElementById("age").value));
+let weather=document.getElementById("weather").value;
+let event=document.getElementById("event").value;
+let style=document.getElementById("style").value;
+
+let filtered=db.filter(x=>x.style===style);
+
+/* fallback */
+if(filtered.length===0)filtered=db;
+
+let html="";
 
 for(let i=0;i<3;i++){
 
-variations.push({
-top:base.top,
-bottom:base.bottom,
-shoes:base.shoes,
-accessory:base.accessory,
-colors:base.colors
-});
+let o=filtered[i%filtered.length];
 
-}
-
-return variations;
-}
-
-function generateOutfits(){
-
-const gender =
-document.getElementById("gender").value;
-
-const age =
-document.getElementById("age").value;
-
-const weather =
-document.getElementById("weather").value;
-
-const event =
-document.getElementById("event").value;
-
-const style =
-document.getElementById("style").value;
-
-let matches = outfitDatabase.filter(item =>
-item.gender === gender &&
-item.age === age &&
-item.weather === weather &&
-item.event === event &&
-item.style === style
-);
-
-if(matches.length === 0){
-
-matches = outfitDatabase.filter(item =>
-item.style === style
-);
-
-}
-
-if(matches.length === 0){
-
-document.getElementById("results").innerHTML =
-"<div class='empty'>No outfits found.</div>";
-
-return;
-}
-
-const base =
-matches[Math.floor(Math.random()*matches.length)];
-
-const outfit1 = {...base};
-
-const outfit2 = {
-...base,
-accessory:"Fashion Watch",
-colors:"Beige + White"
-};
-
-const outfit3 = {
-...base,
-accessory:"Statement Sunglasses",
-colors:"Black + Gold"
-};
-
-const outfits = [outfit1,outfit2,outfit3];
-
-let html = "";
-
-outfits.forEach((o,index)=>{
-
-html += `
+html+=`
 <div class="outfit">
 
-<h3>Outfit ${index+1}</h3>
+<h3>Outfit ${i+1}</h3>
 
-<ul>
-<li><strong>Top:</strong> ${o.top}</li>
-<li><strong>Bottom:</strong> ${o.bottom}</li>
-<li><strong>Shoes:</strong> ${o.shoes}</li>
-<li><strong>Accessory:</strong> ${o.accessory}</li>
-<li><strong>Color Combination:</strong> ${o.colors}</li>
-</ul>
+<div class="item">
+<b>Top:</b> ${o.top}
+<img src="${o.imgTop}">
+<a href="${o.link}" target="_blank">Buy Top</a>
+</div>
 
-<button class="favoriteBtn"
-onclick='saveFavorite(${JSON.stringify(JSON.stringify(o))})'>
-❤️ Save Outfit
-</button>
+<div class="item">
+<b>Bottom:</b> ${o.bottom}
+<img src="${o.imgBottom}">
+<a href="${o.link}" target="_blank">Buy Bottom</a>
+</div>
+
+<div class="item">
+<b>Shoes:</b> ${o.shoes}
+<img src="${o.imgShoes}">
+<a href="${o.link}" target="_blank">Buy Shoes</a>
+</div>
+
+<div class="small">Style Link: <a href="${o.link}" target="_blank">Shop Similar Items</a></div>
 
 </div>
 `;
-
-});
-
-document.getElementById("results").innerHTML = html;
-
 }
 
-function saveFavorite(outfit){
-
-const parsed = JSON.parse(outfit);
-
-let favorites =
-JSON.parse(localStorage.getItem("easyfashionworldFavorites"))
-|| [];
-
-favorites.push(parsed);
-
-localStorage.setItem(
-"easyfashionworldFavorites",
-JSON.stringify(favorites)
-);
-
-loadFavorites();
-
-}
-
-function loadFavorites(){
-
-let favorites =
-JSON.parse(localStorage.getItem("easyfashionworldFavorites"))
-|| [];
-
-let html = "";
-
-favorites.forEach(item=>{
-
-html += `
-<div class="favoriteItem">
-
-<strong>${item.top}</strong><br>
-${item.bottom}<br>
-${item.shoes}<br>
-🎨 ${item.colors}
-
-</div>
-`;
-
-});
-
-document.getElementById("favoritesList").innerHTML = html;
-
-}
-
-loadFavorites();
-
-for(let i=0;i<120;i++){
-
-const sparkle =
-document.createElement("div");
-
-sparkle.classList.add("sparkle");
-
-const size =
-Math.random()*4+2;
-
-sparkle.style.width =
-size+"px";
-
-sparkle.style.height =
-size+"px";
-
-sparkle.style.left =
-Math.random()*100+"%";
-
-sparkle.style.animationDuration =
-(Math.random()*8+5)+"s";
-
-sparkle.style.animationDelay =
-(Math.random()*10)+"s";
-
-document.getElementById("sparkles")
-.appendChild(sparkle);
-
+document.getElementById("outfits").innerHTML=html;
 }
 
 </script>
