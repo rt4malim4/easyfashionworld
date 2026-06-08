@@ -114,6 +114,7 @@ color:#aaa;
 
 <div class="grid">
 
+<!-- LEFT PANEL -->
 <div class="card">
 
 <label>Gender</label>
@@ -124,7 +125,12 @@ color:#aaa;
 </select>
 
 <label>Age</label>
-<input id="age" type="number" value="18">
+<input id="ageRange" type="range" min="0" max="100" value="18"
+oninput="syncAge(this.value)">
+
+<select id="ageSelect" onchange="syncAge(this.value)"></select>
+
+<div class="small">Selected Age: <span id="ageDisplay">18</span></div>
 
 <label>Weather</label>
 <select id="weather">
@@ -158,6 +164,7 @@ color:#aaa;
 
 </div>
 
+<!-- RIGHT PANEL -->
 <div class="card">
 <h2>Outfits</h2>
 <div id="outfits"></div>
@@ -179,10 +186,41 @@ s.style.animationDuration=(Math.random()*8+5)+"s";
 document.getElementById("sparkles").appendChild(s);
 }
 
-/* DATABASE */
+/* AGE DROPDOWN */
+const ageSelect=document.getElementById("ageSelect");
+
+for(let i=0;i<=100;i++){
+let opt=document.createElement("option");
+opt.value=i;
+opt.textContent=i;
+ageSelect.appendChild(opt);
+}
+
+ageSelect.value=18;
+
+/* SYNC AGE */
+function syncAge(val){
+document.getElementById("ageRange").value=val;
+document.getElementById("ageSelect").value=val;
+document.getElementById("ageDisplay").innerText=val;
+}
+
+/* AGE GROUP */
+function ageGroup(age){
+if(age<=19)return"Teen";
+if(age<=30)return"Young Adult";
+return"Adult";
+}
+
+/* DATABASE (AI READY) */
 const db=[
 {
 style:"Streetwear",
+gender:["Male","Female","Unisex"],
+age:["Teen","Young Adult"],
+weather:["Warm","Hot"],
+event:["School","Party","Sport"],
+score:8,
 top:"Oversized Tee",
 bottom:"Cargo Pants",
 shoes:"Nike Sneakers",
@@ -194,6 +232,11 @@ link:"https://www.zalando.ch/sneaker/"
 },
 {
 style:"Old Money",
+gender:["Male","Female"],
+age:["Young Adult","Adult"],
+weather:["Cold","Warm"],
+event:["Work","Date"],
+score:9,
 top:"Oxford Shirt",
 bottom:"Tailored Pants",
 shoes:"Loafers",
@@ -205,6 +248,11 @@ link:"https://www.zalando.ch/hemden/"
 },
 {
 style:"Y2K",
+gender:["Female","Unisex"],
+age:["Teen","Young Adult"],
+weather:["Warm","Hot"],
+event:["Party","Date"],
+score:7,
 top:"Baby Tee",
 bottom:"Low Rise Jeans",
 shoes:"Platform Sneakers",
@@ -216,37 +264,45 @@ link:"https://www.asos.com/women/"
 }
 ];
 
-/* AGE GROUP */
-function ageGroup(age){
-if(age<=19)return"Teen";
-if(age<=30)return"Young Adult";
-return"Adult";
-}
-
-/* GENERATE */
+/* AI GENERATOR */
 function generate(){
 
 let gender=document.getElementById("gender").value;
-let age=ageGroup(parseInt(document.getElementById("age").value));
+let age=ageGroup(parseInt(document.getElementById("ageSelect").value));
 let weather=document.getElementById("weather").value;
 let event=document.getElementById("event").value;
 let style=document.getElementById("style").value;
 
-let filtered=db.filter(x=>x.style===style);
+/* scoring system */
+function scoreOutfit(o){
+let score=0;
 
-/* fallback */
-if(filtered.length===0)filtered=db;
+if(o.style===style) score+=5;
+if(o.gender.includes(gender)) score+=3;
+if(o.age.includes(age)) score+=3;
+if(o.weather.includes(weather)) score+=3;
+if(o.event.includes(event)) score+=4;
+score+=o.score;
+
+return score;
+}
+
+/* rank outfits */
+let ranked=db
+.map(o=>({o,score:scoreOutfit(o)}))
+.sort((a,b)=>b.score-a.score)
+.slice(0,3);
 
 let html="";
 
-for(let i=0;i<3;i++){
-
-let o=filtered[i%filtered.length];
+ranked.forEach((item,i)=>{
+let o=item.o;
 
 html+=`
 <div class="outfit">
 
-<h3>Outfit ${i+1}</h3>
+<h3>AI Outfit ${i+1}</h3>
+<div class="small">Match Score: ${item.score}</div>
 
 <div class="item">
 <b>Top:</b> ${o.top}
@@ -266,11 +322,13 @@ html+=`
 <a href="${o.link}" target="_blank">Buy Shoes</a>
 </div>
 
-<div class="small">Style Link: <a href="${o.link}" target="_blank">Shop Similar Items</a></div>
+<div class="small">
+<a href="${o.link}" target="_blank">Shop Similar Items</a>
+</div>
 
 </div>
 `;
-}
+});
 
 document.getElementById("outfits").innerHTML=html;
 }
