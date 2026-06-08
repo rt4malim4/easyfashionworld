@@ -1,243 +1,482 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>easyfashionworld</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  color: #fff;
-  overflow-x: hidden;
-  background: black;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
 }
 
-/* Glitzer Hintergrund */
-.stars, .stars2, .stars3 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 200%;
-  height: 200%;
-  background: transparent;
-  display: block;
+body{
+background:#0a0a0a;
+color:white;
+min-height:100vh;
+overflow-x:hidden;
 }
 
-.stars {
-  background-image: radial-gradient(2px 2px at 20px 30px, white, transparent),
-                    radial-gradient(2px 2px at 40px 70px, white, transparent),
-                    radial-gradient(1px 1px at 90px 40px, white, transparent);
-  animation: moveStars 50s linear infinite;
-  opacity: 0.5;
+#sparkles{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-1;
+overflow:hidden;
 }
 
-.stars2 {
-  background-image: radial-gradient(1px 1px at 50px 80px, #ff66ff, transparent),
-                    radial-gradient(1px 1px at 120px 20px, #66ffff, transparent);
-  animation: moveStars 100s linear infinite;
-  opacity: 0.4;
+.sparkle{
+position:absolute;
+background:gold;
+border-radius:50%;
+opacity:.7;
+animation:float linear infinite;
 }
 
-.stars3 {
-  background-image: radial-gradient(1px 1px at 10px 10px, #ffff66, transparent),
-                    radial-gradient(2px 2px at 150px 90px, #ff9966, transparent);
-  animation: moveStars 150s linear infinite;
-  opacity: 0.3;
+@keyframes float{
+0%{
+transform:translateY(100vh);
+opacity:0;
+}
+20%{
+opacity:1;
+}
+100%{
+transform:translateY(-100px);
+opacity:0;
+}
 }
 
-@keyframes moveStars {
-  from {transform: translateY(0px);}
-  to {transform: translateY(-1000px);}
+.container{
+max-width:1200px;
+margin:auto;
+padding:30px;
 }
 
-.container {
-  position: relative;
-  padding: 20px;
-  max-width: 900px;
-  margin: auto;
+.hero{
+text-align:center;
+margin-bottom:30px;
 }
 
-h1 {
-  text-align: center;
-  font-size: 32px;
+.hero h1{
+font-size:3rem;
+color:gold;
+margin-bottom:10px;
 }
 
-input, select, button {
-  padding: 10px;
-  margin: 5px;
-  border-radius: 8px;
-  border: none;
+.hero p{
+color:#ccc;
 }
 
-button {
-  cursor: pointer;
-  background: #ff4dd2;
-  color: white;
+.grid{
+display:grid;
+grid-template-columns:350px 1fr;
+gap:25px;
 }
 
-.card {
-  background: rgba(0,0,0,0.6);
-  padding: 15px;
-  margin-top: 15px;
-  border-radius: 12px;
+.card{
+background:rgba(255,255,255,.06);
+backdrop-filter:blur(10px);
+border:1px solid rgba(255,215,0,.2);
+border-radius:20px;
+padding:25px;
 }
 
-.outfit {
-  margin-bottom: 10px;
-  padding: 10px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 10px;
+.card h2{
+color:gold;
+margin-bottom:20px;
 }
 
-.small {
-  font-size: 13px;
-  opacity: 0.8;
+label{
+display:block;
+margin-bottom:6px;
+margin-top:14px;
+}
+
+select{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#1b1b1b;
+color:white;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:15px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+transition:.3s;
+}
+
+.primary{
+background:gold;
+color:black;
+}
+
+.primary:hover{
+transform:translateY(-2px);
+}
+
+.secondary{
+background:#333;
+color:white;
+}
+
+.outfits{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+}
+
+.outfit{
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,215,0,.15);
+border-radius:18px;
+padding:20px;
+}
+
+.outfit h3{
+color:gold;
+margin-bottom:10px;
+}
+
+.outfit ul{
+padding-left:18px;
+}
+
+.outfit li{
+margin-bottom:7px;
+}
+
+.favorite{
+margin-top:15px;
+background:gold;
+color:black;
+}
+
+#favorites{
+margin-top:20px;
+}
+
+.favoriteItem{
+background:#1d1d1d;
+padding:10px;
+border-radius:10px;
+margin-bottom:10px;
+}
+
+@media(max-width:900px){
+.grid{
+grid-template-columns:1fr;
+}
+.hero h1{
+font-size:2.2rem;
+}
 }
 </style>
 </head>
-
 <body>
 
-<div class="stars"></div>
-<div class="stars2"></div>
-<div class="stars3"></div>
+<div id="sparkles"></div>
 
 <div class="container">
-  <h1>✨ easyfashionworld</h1>
-  <p style="text-align:center;">Deine KI Modeberaterin für perfekte Outfits</p>
 
-  <div class="card">
-    <input id="weather" placeholder="Wetter (z.B. sonnig, kalt, regen)" />
-    <input id="event" placeholder="Anlass (z.B. Schule, Party, Business)" />
+<div class="hero">
+<h1>easyfashionworld</h1>
+<p>Your personal AI-free Fashion Planner</p>
+</div>
 
-    <select id="gender">
-      <option value="unisex">Unisex</option>
-      <option value="male">Männlich</option>
-      <option value="female">Weiblich</option>
-    </select>
+<div class="grid">
 
-    <input id="age" type="number" placeholder="Alter" />
+<div class="card">
 
-    <button onclick="generateOutfits()">Outfits generieren</button>
-    <button onclick="newSuggestions()">Neue Vorschläge</button>
-  </div>
+<h2>Style Generator</h2>
 
-  <div id="results"></div>
-  <div class="card">
-    <h3>⭐ Favoriten</h3>
-    <div id="favorites"></div>
-  </div>
+<label>Gender</label>
+<select id="gender">
+<option>Male</option>
+<option>Female</option>
+<option>Unisex</option>
+</select>
+
+<label>Age Group</label>
+<select id="age">
+<option>Teen (13-19)</option>
+<option>Young Adult (20-30)</option>
+<option>Adult (31-40)</option>
+</select>
+
+<label>Weather</label>
+<select id="weather">
+<option>Hot</option>
+<option>Warm</option>
+<option>Cold</option>
+<option>Rainy</option>
+</select>
+
+<label>Event</label>
+<select id="event">
+<option>School</option>
+<option>Work</option>
+<option>Party</option>
+<option>Date</option>
+<option>Shopping</option>
+<option>Sport</option>
+</select>
+
+<label>Style</label>
+<select id="style">
+<option>Casual</option>
+<option>Sporty</option>
+<option>Streetwear</option>
+<option>Y2K</option>
+</select>
+
+<button class="primary" onclick="generateOutfits()">
+Generate Outfits
+</button>
+
+<button class="secondary" onclick="generateOutfits()">
+More Suggestions
+</button>
+
+<div id="favorites">
+<h2 style="margin-top:20px;">Favorites ❤️</h2>
+<div id="favoritesList"></div>
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Outfit Suggestions</h2>
+
+<div class="outfits" id="results">
+
+<p>Select your preferences and generate outfits.</p>
+
+</div>
+
+</div>
+
+</div>
+
 </div>
 
 <script>
-let lastOutfits = [];
 
-function generateOutfits() {
-  const weather = document.getElementById("weather").value.toLowerCase();
-  const event = document.getElementById("event").value.toLowerCase();
-  const gender = document.getElementById("gender").value;
-  const age = parseInt(document.getElementById("age").value);
+const outfitData = {
 
-  lastOutfits = createOutfits(weather, event, gender, age);
-  renderOutfits(lastOutfits);
+Casual:[
+{
+top:"Basic Tee",
+bottom:"Slim Fit Jeans",
+shoes:"White Sneakers",
+accessory:"Minimal Watch",
+colors:"Black + White"
+},
+{
+top:"Oversized Hoodie",
+bottom:"Straight Jeans",
+shoes:"Chunky Sneakers",
+accessory:"Crossbody Bag",
+colors:"Grey + White"
+},
+{
+top:"Polo Shirt",
+bottom:"Chino Pants",
+shoes:"Leather Sneakers",
+accessory:"Silver Watch",
+colors:"Beige + Navy"
+}
+],
+
+Sporty:[
+{
+top:"Performance Tee",
+bottom:"Joggers",
+shoes:"Running Shoes",
+accessory:"Sports Cap",
+colors:"Black + Neon Green"
+},
+{
+top:"Training Hoodie",
+bottom:"Track Pants",
+shoes:"Nike Style Trainers",
+accessory:"Gym Bag",
+colors:"Grey + Black"
+},
+{
+top:"Compression Shirt",
+bottom:"Athletic Shorts",
+shoes:"Sport Sneakers",
+accessory:"Smart Watch",
+colors:"Blue + White"
+}
+],
+
+Streetwear:[
+{
+top:"Oversized Graphic Tee",
+bottom:"Cargo Pants",
+shoes:"High Top Sneakers",
+accessory:"Crossbody Bag",
+colors:"Black + Red"
+},
+{
+top:"Street Hoodie",
+bottom:"Baggy Jeans",
+shoes:"Chunky Sneakers",
+accessory:"Beanie",
+colors:"Grey + Black"
+},
+{
+top:"Boxy Fit Tee",
+bottom:"Wide Leg Pants",
+shoes:"Skate Shoes",
+accessory:"Chain Necklace",
+colors:"Olive + Black"
+}
+],
+
+Y2K:[
+{
+top:"Baby Tee",
+bottom:"Low Rise Jeans",
+shoes:"Platform Sneakers",
+accessory:"Mini Bag",
+colors:"Pink + White"
+},
+{
+top:"Mesh Top",
+bottom:"Cargo Skirt",
+shoes:"Platform Boots",
+accessory:"Butterfly Necklace",
+colors:"Purple + Silver"
+},
+{
+top:"Cropped Hoodie",
+bottom:"Parachute Pants",
+shoes:"Chunky Trainers",
+accessory:"Tinted Sunglasses",
+colors:"Sky Blue + White"
+}
+]
+
+};
+
+function generateOutfits(){
+
+const style=document.getElementById("style").value;
+
+let data=[...outfitData[style]];
+
+data.sort(()=>Math.random()-0.5);
+
+let html="";
+
+for(let i=0;i<3;i++){
+
+const outfit=data[i];
+
+html+=`
+<div class="outfit">
+
+<h3>Outfit ${i+1}</h3>
+
+<ul>
+<li><strong>Top:</strong> ${outfit.top}</li>
+<li><strong>Bottom:</strong> ${outfit.bottom}</li>
+<li><strong>Shoes:</strong> ${outfit.shoes}</li>
+<li><strong>Accessory:</strong> ${outfit.accessory}</li>
+<li><strong>Color Combo:</strong> ${outfit.colors}</li>
+</ul>
+
+<button class="favorite"
+onclick='saveFavorite(${JSON.stringify(JSON.stringify(outfit))})'>
+❤️ Save Outfit
+</button>
+
+</div>
+`;
 }
 
-function newSuggestions() {
-  if (lastOutfits.length > 0) {
-    const weather = document.getElementById("weather").value.toLowerCase();
-    const event = document.getElementById("event").value.toLowerCase();
-    const gender = document.getElementById("gender").value;
-    const age = parseInt(document.getElementById("age").value);
+document.getElementById("results").innerHTML=html;
 
-    lastOutfits = createOutfits(weather, event, gender, age, true);
-    renderOutfits(lastOutfits);
-  }
 }
 
-function createOutfits(weather, event, gender, age, random=false) {
-  const styles = ["Streetwear", "Casual", "Elegant", "Sportlich", "Minimalistisch"];
-  const colors = ["Schwarz + Weiß", "Beige + Braun", "Blau + Grau", "Pastellfarben", "Neon Akzente"];
+function saveFavorite(outfit){
 
-  let outfits = [];
+let favorites=
+JSON.parse(localStorage.getItem("easyfashionworld"))||[];
 
-  for (let i = 0; i < 3; i++) {
-    let style = styles[Math.floor(Math.random()*styles.length)];
-    let color = colors[Math.floor(Math.random()*colors.length)];
+favorites.push(JSON.parse(outfit));
 
-    if (age < 18) style = "Jugendlich " + style;
-    if (age > 30) style = "Erwachsen " + style;
+localStorage.setItem(
+"easyfashionworld",
+JSON.stringify(favorites)
+);
 
-    if (weather.includes("regen")) {
-      style += " + wasserfest";
-    }
-    if (weather.includes("kalt")) {
-      style += " + warm layering";
-    }
-    if (event.includes("party")) {
-      style += " + auffällig";
-    }
-
-    let outfit = {
-      title: style + " Look",
-      items: [
-        "Oberteil: " + (gender === "female" ? "Bluse / Top" : gender === "male" ? "Shirt / Hemd" : "Basic Shirt"),
-        "Unterteil: Jeans oder Stoffhose",
-        "Schuhe: Sneakers oder Boots",
-        "Accessoire: passende Uhr / Tasche"
-      ],
-      colors: color,
-      tips: "Ideal für " + event + " bei " + weather + "."
-    };
-
-    outfits.push(outfit);
-  }
-
-  return outfits;
+loadFavorites();
 }
 
-function renderOutfits(outfits) {
-  const div = document.getElementById("results");
-  div.innerHTML = "";
+function loadFavorites(){
 
-  outfits.forEach((o, index) => {
-    const el = document.createElement("div");
-    el.className = "card";
+let favorites=
+JSON.parse(localStorage.getItem("easyfashionworld"))||[];
 
-    el.innerHTML = `
-      <h3>${o.title}</h3>
-      <p><b>Farben:</b> ${o.colors}</p>
-      <ul>
-        ${o.items.map(i => `<li>${i}</li>`).join("")}
-      </ul>
-      <p class="small">${o.tips}</p>
-      <button onclick='saveFavorite(${JSON.stringify(o).replace(/"/g, "&quot;")})'>⭐ Speichern</button>
-    `;
+let html="";
 
-    div.appendChild(el);
-  });
+favorites.forEach((o,index)=>{
+
+html+=`
+<div class="favoriteItem">
+<strong>${o.top}</strong><br>
+${o.colors}
+</div>
+`;
+});
+
+document.getElementById("favoritesList").innerHTML=html;
 }
 
-function saveFavorite(outfit) {
-  let fav = JSON.parse(localStorage.getItem("fav") || "[]");
-  fav.push(outfit);
-  localStorage.setItem("fav", JSON.stringify(fav));
-  loadFavorites();
+loadFavorites();
+
+for(let i=0;i<80;i++){
+
+let sparkle=document.createElement("div");
+
+sparkle.classList.add("sparkle");
+
+let size=Math.random()*4+2;
+
+sparkle.style.width=size+"px";
+sparkle.style.height=size+"px";
+sparkle.style.left=Math.random()*100+"%";
+sparkle.style.animationDuration=
+(Math.random()*8+5)+"s";
+
+sparkle.style.animationDelay=
+(Math.random()*10)+"s";
+
+document.getElementById("sparkles")
+.appendChild(sparkle);
 }
 
-function loadFavorites() {
-  let fav = JSON.parse(localStorage.getItem("fav") || "[]");
-  const div = document.getElementById("favorites");
-  div.innerHTML = "";
+</script>
 
-  fav.forEach(f => {
-    const el = document.createElement("div");
-    el.className = "outfit";
-    el.innerHTML = `<b>${f.title}</b><br><small>${f.colors}</small>`;
-    div.appendChild(el);
-  });
-}
+</body>
+</html>
 
 loadFavorites();
 </script>
